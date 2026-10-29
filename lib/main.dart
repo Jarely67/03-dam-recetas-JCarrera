@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:recetas_app/screens/splash_screen.dart';
 
-void main() => runApp(const MyApp());
+Run | Debug | Profile
+void main(){
+  runApp(const RecetasApp());
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class RecetasApp extends StatelessWidget{
+  const RecetasApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    // TODO: implement build
+    return MaterialApp(
+      title: "Recetas del Mayab",
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-    );
+    ); // MaterialApp
   }
 }

@@ -1,49 +1,19 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:recetas_app/models/receta.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class RecipeService {
+  static const String _baseUrl = 'https://dummyjson.com/recipes';
 
-  @override
-  State<StatefulWidget> createState() => _SplashScreenState();
-}
+  Future<List<Receta>> obtenerRecetas() async {
+    final response = await http.get(Uri.parse(_baseUrl));
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    }); // Timer
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.green,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.restaurant_menu, color: Colors.white, size: 90),
-            SizedBox(height: 16),
-            Text(
-              "Recetas App",
-              style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-            ), // Text
-            SizedBox(height: 8),
-            Text(
-              "Sabores del Mayab",
-              style: TextStyle(color: Colors.white70, fontSize: 13),
-            ), // Text
-            SizedBox(height: 24),
-            CircularProgressIndicator(color: Colors.white),
-          ],
-        ), // Column // Center
-      ), // Scaffold
-    );
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List<dynamic> lista = data['recipes'];
+      return lista.map((item) => Receta.fromJson(item)).toList();
+    } else {
+      throw Exception('Error al cargar recetas: ${response.statusCode}');
+    }
   }
 }

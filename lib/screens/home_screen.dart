@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recetas_app/models/receta.dart';
+import 'package:recetas_app/screens/detalle_receta_screen.dart';
 import 'package:recetas_app/services/recipe_service.dart';
 import 'package:recetas_app/widgets/receta_card.dart';
 
@@ -11,20 +12,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Receta>> _recetas;
+  final RecipeService _recipeService = RecipeService();
+  late Future<List<Receta>> _futureRecetas;
 
   @override
   void initState() {
     super.initState();
-    _recetas = RecipeService().obtenerRecetas();
+    _futureRecetas = _recipeService.obtenerRecetas();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Recetas del Mayab')),
+      appBar: AppBar(
+        title: const Text('RecetasApp'),
+        backgroundColor: const Color.fromARGB(255, 80, 23, 3),
+      ),
       body: FutureBuilder<List<Receta>>(
-        future: _recetas,
+        future: _futureRecetas,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -34,9 +39,23 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           final recetas = snapshot.data!;
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: recetas.length,
             itemBuilder: (context, index) {
-              return RecetaCard(receta: recetas[index]);
+              return RecetaCard(
+                receta: recetas[index],
+                onTap: () async {
+                  // PARTE AGREGADA INICIA AQUÍ
+                  await Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DetalleRecetaScreen(receta: recetas[index]),
+                    ),
+                  );
+                  // PARTE AGREGADA TERMINA AQUÍ
+                },
+              );
             },
           );
         },

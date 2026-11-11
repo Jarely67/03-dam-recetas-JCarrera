@@ -4,6 +4,7 @@ import 'package:recetas_app/models/receta.dart';
 class RecetaCard extends StatelessWidget {
   final Receta receta;
   final VoidCallback? onTap;
+
   const RecetaCard({super.key, required this.receta, this.onTap});
 
   @override

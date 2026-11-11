@@ -6,11 +6,11 @@ class Receta {
   final int tiempoPreparacion;
   final int tiempoCoccion;
   final int porciones;
+  final String dificultad;
+  final String cocina;
   final int calorias;
   final String imagenUrl;
   final double calificacion;
-  final String cocina;
-  final String dificultad;
 
   const Receta({
     required this.id,
@@ -20,11 +20,11 @@ class Receta {
     required this.tiempoPreparacion,
     required this.tiempoCoccion,
     required this.porciones,
+    required this.dificultad,
+    required this.cocina,
     required this.calorias,
     required this.imagenUrl,
     required this.calificacion,
-    required this.cocina,
-    required this.dificultad,
   });
 
   factory Receta.fromJson(Map<String, dynamic> json) {
@@ -36,11 +36,11 @@ class Receta {
       tiempoPreparacion: json['prepTimeMinutes'],
       tiempoCoccion: json['cookTimeMinutes'],
       porciones: json['servings'],
+      dificultad: json['difficulty'],
+      cocina: json['cuisine'],
       calorias: json['caloriesPerServing'],
       imagenUrl: json['image'],
       calificacion: (json['rating'] as num).toDouble(),
-      cocina: json['cuisine'],
-      dificultad: json['difficulty'],
     );
   }
 

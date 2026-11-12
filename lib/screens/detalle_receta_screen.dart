@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recetas_app/models/receta.dart';
+import 'package:recetas_app/screens/resenas_screen.dart';
 
 class DetalleRecetaScreen extends StatefulWidget {
   final Receta receta;
@@ -41,6 +42,19 @@ class _DetalleRecetaScreenState extends State<DetalleRecetaScreen> {
               Chip(label: Text(receta.cocina)),
               Chip(label: Text('${receta.calorias} kcal')),
             ],
+          ),
+          const SizedBox(height: 12),
+          FilledButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResenasScreen(receta: receta),
+                ),
+              );
+            },
+            icon: const Icon(Icons.rate_review),
+            label: const Text('Ver reseñas'),
           ),
           const SizedBox(height: 8),
           const Text(
